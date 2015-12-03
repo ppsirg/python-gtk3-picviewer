@@ -1,0 +1,11 @@
+# Python Cache Objects
+*.pyc
+*.pyo
+*.pyd
+
+# Log and pid file
+*.log
+*.pid
+
+# IntelliJ IDEA
+.idea
