@@ -3,6 +3,9 @@
 *.pyo
 *.pyd
 
+# packages
+__pycache__
+
 # Log and pid file
 *.log
 *.pid
