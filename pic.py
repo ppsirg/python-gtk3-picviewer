@@ -3,12 +3,14 @@
 """ my small picviewer """
 # TODO: if pic < win don't change dimensions
 # caching of next and previous pic
-import sys
+
 import lib
+import sys
 import os
 from gi.repository import Gtk, Gdk, GLib, GObject, GdkPixbuf, Gio, Pango
 
 DIA = 5  # diashow timer in seconds
+
 
 class PicViewer(Gtk.Window):
     """ small gtk-pic-viewer main class """
@@ -45,7 +47,7 @@ class PicViewer(Gtk.Window):
 
         # Functions
         self.files = lib.load_file_list(sys.argv[1], lib.PIC)
-        if self.files == []:
+        if not self.files:
             print("no images found")
             sys.exit(1)
         self.load_pic()
@@ -84,10 +86,8 @@ class PicViewer(Gtk.Window):
         if self.ani:
             self.image.set_from_animation(self.pix)
         else:
-            test = lib.scale(self.pix.get_width(), self.pix.get_height(), \
-                self.dim[0], self.dim[1])
-            newpix = self.pix.scale_simple(test[0], test[1], \
-                GdkPixbuf.InterpType.BILINEAR)
+            test = lib.scale(self.pix.get_width(), self.pix.get_height(), self.dim[0], self.dim[1])
+            newpix = self.pix.scale_simple(test[0], test[1], GdkPixbuf.InterpType.BILINEAR)
             self.image.set_from_pixbuf(newpix)
 
     def update_pic(self):
@@ -95,7 +95,7 @@ class PicViewer(Gtk.Window):
         if len(self.files) == 0:
             Gtk.main_quit()
         else:
-            self.index = self.index % len(self.files)
+            self.index %= len(self.files)
             self.load_pic()
             self.update_image()
 
@@ -144,13 +144,11 @@ class PicViewer(Gtk.Window):
             self.update_pic()
         elif event.keyval == Gdk.keyval_from_name("Up"):
             if not self.ani:
-                self.pix = self.pix.rotate_simple( \
-                    GdkPixbuf.PixbufRotation.CLOCKWISE)
+                self.pix = self.pix.rotate_simple(GdkPixbuf.PixbufRotation.CLOCKWISE)
                 self.update_image()
         elif event.keyval == Gdk.keyval_from_name("Down"):
             if not self.ani:
-                self.pix = self.pix.rotate_simple( \
-                    GdkPixbuf.PixbufRotation.COUNTERCLOCKWISE)
+                self.pix = self.pix.rotate_simple(GdkPixbuf.PixbufRotation.COUNTERCLOCKWISE)
                 self.update_image()
 
     def on_tick(self):
